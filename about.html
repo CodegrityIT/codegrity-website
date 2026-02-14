@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - CodeGrity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #3b82f6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.15s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+        }
+
+        /* Scroll Percentage */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 1000;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(59, 130, 246, 0.3);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%);
+            z-index: 9999;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .lock-outer {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            transform: rotate(45deg);
+        }
+
+        .lock-inner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-radius: 3px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .lock-dot {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f8fafc;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #f8fafc;
+        }
+
+        .nav-number {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-left: 0.5rem;
+        }
+
+        .cta-button {
+            background: transparent;
+            color: #3b82f6;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #3b82f6;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .cta-button:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-element {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .bg-element-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, #8b5cf6 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+        }
+
+        .bg-element-2 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            animation-delay: 7s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 900px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-eyebrow {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: #94a3b8;
+            line-height: 1.8;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 6rem 5%;
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        /* Story Section */
+        .story-section {
+            padding: 10rem 5%;
+            background: #0a0a0a;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-number {
+            font-size: 1rem;
+            color: #3b82f6;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header p {
+            font-size: 1.3rem;
+            color: #64748b;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .story-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-content p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .story-content p:first-letter {
+            font-size: 3.5rem;
+            font-weight: 700;
+            float: left;
+            line-height: 1;
+            margin-right: 0.5rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 10rem 5%;
+            background: #000000;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .value-card {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.5s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 25px 70px rgba(59, 130, 246, 0.15);
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #f8fafc;
+        }
+
+        .value-card p {
+            color: #94a3b8;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 10rem 5%;
+            background: #0a0a0a;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .team-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: #1e293b;
+            transition: all 0.5s;
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .team-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .team-info {
+            padding: 2rem;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: #3b82f6;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .team-bio {
+            color: #94a3b8;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 12rem 5%;
+            background: #0a0a0a;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            width: 1000px;
+            height: 1000px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content h2 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: #000000;
+            padding: 4rem 5%;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+
+        .footer-copy {
+            margin-top: 3rem;
+            text-align: center;
+            color: #475569;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .section-header h2 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    <div class="scroll-progress"></div>
+    <div class="scroll-indicator">0%</div>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="homepage-v2-zeronegative-style.html" class="logo-nav">
+            <div class="logo-icon">
+                <div class="lock-outer"></div>
+                <div class="lock-inner">
+                    <div class="lock-dot"></div>
+                </div>
+            </div>
+            <span class="logo-text">CodeGrity</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="services.html">Services<span class="nav-number">01</span></a></li>
+            <li><a href="work.html">Work<span class="nav-number">02</span></a></li>
+            <li><a href="about.html" class="active">About<span class="nav-number">03</span></a></li>
+            <li><a href="contact.html">Contact<span class="nav-number">04</span></a></li>
+        </ul>
+        <a href="contact.html" class="cta-button">Start Project</a>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="bg-element bg-element-1"></div>
+        <div class="bg-element bg-element-2"></div>
+        
+        <div class="hero-content">
+            <div class="hero-eyebrow">03 — Who We Are</div>
+            <h1>Code. <span class="highlight">Integrity</span>. Excellence.</h1>
+            <p>We're a team of passionate developers who believe that exceptional software is built on a foundation of uncompromising quality and honest partnership</p>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">8+</div>
+                <div class="stat-label">Years of Excellence</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100+</div>
+                <div class="stat-label">Projects Delivered</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">25+</div>
+                <div class="stat-label">Industries Served</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="story-section">
+        <div class="section-header">
+            <div class="section-number">Our Story</div>
+            <h2>Built on Integrity,<br>Powered by Excellence</h2>
+        </div>
+
+        <div class="story-content">
+            <p>
+                CodeGrity was born from a simple observation: too many companies compromise on code quality to hit deadlines, leaving clients with technical debt and maintenance nightmares. We knew there had to be a better way.
+            </p>
+            <p>
+                Founded in 2017, we set out to prove that you don't have to choose between fast delivery and exceptional quality. By assembling a team of senior developers who share our commitment to craftsmanship, we've built a reputation for delivering solutions that not only meet today's needs but scale gracefully into the future.
+            </p>
+            <p>
+                Our name says it all: Code + Integrity. Every line of code we write, every architectural decision we make, and every partnership we form is guided by an unwavering commitment to doing things right. No shortcuts. No compromises. Just exceptional software, delivered with honesty and transparency.
+            </p>
+            <p>
+                Today, we're proud to partner with forward-thinking companies who understand that quality is an investment, not an expense. From startups building their first MVP to enterprises modernizing legacy systems, we bring the same level of excellence to every project.
+            </p>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="values-section">
+        <div class="section-header">
+            <div class="section-number">Our Values</div>
+            <h2>What Drives Us<br>Every Day</h2>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🔒</div>
+                <h3>Integrity First</h3>
+                <p>We do what we say, every time. Transparent communication, honest timelines, and upfront pricing. No surprises, no excuses.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">⚡</div>
+                <h3>Excellence</h3>
+                <p>Premium quality in every line of code. We write software that's maintainable, scalable, and built to last. No technical debt left behind.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>True Partnership</h3>
+                <p>Your success is our success. We're not just vendors—we're invested in your long-term growth and committed to your vision.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🚀</div>
+                <h3>Innovation</h3>
+                <p>Modern solutions for modern challenges. We stay ahead of technology trends to deliver cutting-edge solutions that give you a competitive edge.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">💬</div>
+                <h3>Transparency</h3>
+                <p>Clear communication at every step. You always know where your project stands, what we're working on, and what's coming next.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="value-icon">🎯</div>
+                <h3>Results-Driven</h3>
+                <p>We measure success by your outcomes, not our output. Every solution is designed to deliver measurable business value.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team-section">
+        <div class="section-header">
+            <div class="section-number">Meet the Team</div>
+            <h2>The People Behind<br>the Code</h2>
+            <p>Senior developers with a passion for excellence</p>
+        </div>
+
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-photo">👨‍💻</div>
+                <div class="team-info">
+                    <div class="team-name">Your Name</div>
+                    <div class="team-role">Founder & CEO</div>
+                    <div class="team-bio">
+                        15+ years building scalable systems. Passionate about clean architecture and helping companies grow through technology.
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">👨‍💼</div>
+                <div class="team-info">
+                    <div class="team-name">Team Member 2</div>
+                    <div class="team-role">Lead Developer</div>
+                    <div class="team-bio">
+                        Full-stack expert specializing in React, Node.js, and cloud architecture. Loves solving complex technical challenges.
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="team-photo">👩‍💻</div>
+                <div class="team-info">
+                    <div class="team-name">Team Member 3</div>
+                    <div class="team-role">Senior Engineer</div>
+                    <div class="team-bio">
+                        Mobile development specialist with expertise in React Native and native iOS/Android development.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Work With a Team<br>You Can Trust</h2>
+            <p>Ready to build something exceptional together?</p>
+            <a href="contact.html" class="btn-primary">Start Your Project →</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-icon" style="width: 30px; height: 30px;">
+                    <div class="lock-outer" style="width: 30px; height: 30px; border-width: 2px;"></div>
+                    <div class="lock-inner" style="width: 15px; height: 15px;"></div>
+                    <div class="lock-dot" style="width: 5px; height: 5px;"></div>
+                </div>
+                <span style="font-size: 1.1rem; font-weight: 700;">CodeGrity</span>
+            </div>
+            <ul class="footer-links">
+                <li><a href="services.html">Services</a></li>
+                <li><a href="work.html">Work</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-copy">
+            &copy; 2026 CodeGrity. Engineering Excellence, Delivered with Integrity.
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0, followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            follower.style.left = followerX + 'px';
+            follower.style.top = followerY + 'px';
+
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
+
+        document.querySelectorAll('a, button, .value-card, .team-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(2)';
+                follower.style.transform = 'scale(2)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                follower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Scroll Percentage
+        const scrollIndicator = document.querySelector('.scroll-indicator');
+        const scrollProgress = document.querySelector('.scroll-progress');
+
+        window.addEventListener('scroll', () => {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            scrollIndicator.textContent = Math.round(scrollPercent) + '%';
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+    </script>
+</body>
+</html>

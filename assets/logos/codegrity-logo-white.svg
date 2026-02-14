@@ -1,0 +1,29 @@
+<svg width="400" height="100" viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Code Lock Icon -->
+  <g transform="translate(30, 50)">
+    <!-- Outer lock (rotated square) - white stroke -->
+    <rect x="-20" y="-20" width="40" height="40" 
+          fill="none" 
+          stroke="#ffffff" 
+          stroke-width="3" 
+          rx="6"
+          transform="rotate(45)"/>
+    
+    <!-- Inner lock - white fill -->
+    <rect x="-10" y="-10" width="20" height="20" 
+          fill="#ffffff" 
+          rx="3"
+          transform="rotate(45)"/>
+    
+    <!-- Center dot - dark for contrast -->
+    <circle cx="0" cy="0" r="3" fill="#0a0a0a"/>
+  </g>
+  
+  <!-- Text: CODEGRITY - all white -->
+  <text x="80" y="62" 
+        font-family="system-ui, -apple-system, sans-serif" 
+        font-size="40" 
+        font-weight="700" 
+        fill="#ffffff"
+        letter-spacing="-1">CODEGRITY</text>
+</svg>
