@@ -145,7 +145,17 @@
       .logo-text {
         font-size: 1.3rem;
         font-weight: 700;
-        color: #f8fafc;
+      }
+
+      .logo-text .code-part {
+        color: #3b82f6;
+      }
+
+      .logo-text .grity-part {
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
       }
 
       .nav-links {
@@ -612,7 +622,10 @@
             <div class="lock-dot"></div>
           </div>
         </div>
-        <span class="logo-text">CodeGrity</span>
+        <span class="logo-text"
+          ><span class="code-part">Code</span
+          ><span class="grity-part">Grity</span></span
+        >
       </a>
       <ul class="nav-links">
         <li>
